@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Panel Empleado | Tu Menaje Selecto</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+.carousel-item img{
+	height: 400px;
+	object-fit: cover;
+	border-radius: 15px;
+}
+
+#carouselDashboard .carousel-item img {
+	height: 600px;
+	object-fit: cover;
+}
+	
+html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:#f4f6f9;
+    font-family:'Segoe UI',sans-serif;
+    display:flex;
+    flex-direction:column;
+}
+
+main{
+    flex:1;
+}
+
+:root{
+    --primary:#1e3a8a;
+    --secondary:#2563eb;
+    --accent:#f59e0b;
+    --success:#16a34a;
+}
+
+.navbar{
+    background:white;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.navbar-brand{
+    font-weight:bold;
+}
+
+.nav-link{
+    transition:all .3s ease;
+    border-radius:10px;
+    padding:8px 15px !important;
+    font-weight:500;
+}
+
+.nav-link:hover{
+    background:var(--primary);
+    color:white !important;
+    transform:translateY(-2px);
+}
+
+.logout-btn{
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    transform:scale(1.05);
+}
+
+.hero-section{
+
+    height:380px;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+    rgba(15,23,42,.65),
+    rgba(30,41,59,.75)
+    ),
+    url('/img/empleado.jpg');
+
+    background-size:cover;
+    background-position:center;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    color:white;
+
+    margin-top:25px;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.15);
+}
+
+.hero-section h1{
+    font-size:3rem;
+    font-weight:700;
+}
+
+.hero-section p{
+    font-size:1.1rem;
+}
+
+.stats-card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.stats-card:hover{
+    transform:translateY(-5px);
+}
+
+.stats-card i{
+    font-size:30px;
+    color:var(--primary);
+}
+
+.stats-card h3{
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.card-admin{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    transition:.4s;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card-admin:hover{
+    transform:
+    translateY(-10px)
+    scale(1.02);
+
+    box-shadow:
+    0 20px 40px rgba(0,0,0,.15);
+}
+
+.card-admin img{
+    height:200px;
+    object-fit:cover;
+}
+
+.section-title{
+    text-align:center;
+    margin:50px 0 30px;
+    font-weight:700;
+    color:#1f2937;
+}
+
+.footer{
+    margin-top:80px;
+    background:#0f172a;
+    color:white;
+    padding:50px 0 20px;
+    border-top:5px solid var(--accent);
+}
+
+.footer h5{
+    font-weight:bold;
+}
+
+.footer p{
+    margin-bottom:8px;
+}
+
+.footer hr{
+    border-color:rgba(255,255,255,.2);
+}
+
+.dropdown-menu{
+    border:none;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.dropdown-item{
+    transition:.3s;
+}
+
+.dropdown-item:hover{
+    background:#1e3a8a;
+    color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg">
+
+<div class="container-fluid">
+
+<a class="navbar-brand">
+	Tu Menaje Selecto
+</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav mx-auto">
+
+<li class="nav-item">
+<a class="nav-link" th:href="@{/inicioEmpleado}">
+<i class="fa-solid fa-house"></i>
+Inicio
+</a>
+</li>
+
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+
+<i class="fa-solid fa-users"></i>
+Clientes
+</a>
+
+<ul class="dropdown-menu">
+
+ <li>
+ <a class="dropdown-item" th:href="@{/gestioncliente/lista}">
+ <i class="fa-solid fa-list"></i>
+ Listar Clientes
+ </a>
+</li>
+
+<li>
+<a class="dropdown-item" th:href="@{/gestioncliente/nuevo}">
+<i class="fa-solid fa-user-plus"></i>
+Registrar Cliente
+ </a>
+</li>
+
+</ul>
+</li>
+
+<li class="nav-item dropdown">
+ <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+<i class="fa-solid fa-calendar-check"></i>
+Eventos
+</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" th:href="@{/gestionevento/lista}">
+<i class="fa-solid fa-list"></i>
+Listar Eventos
+</a>
+</li>
+<li>
+	
+<a class="dropdown-item" th:href="@{/gestionevento/nuevo}">
+<i class="fa-solid fa-plus"></i>
+Registrar Evento
+</a>
+</li>
+</ul>
+</li>
+
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+<i class="fa-solid fa-money-bill-wave"></i>
+Pagos
+</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" th:href="@{/gestionpago/lista}">
+<i class="fa-solid fa-list"></i>
+Listar Pagos
+</a>
+</li>
+<li>
+<a class="dropdown-item" th:href="@{/gestionpago/nuevo}">
+<i class="fa-solid fa-plus"></i>
+ Registrar Pago
+</a>
+</li>
+</ul>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" th:href="@{/agenda}">
+<i class="fa-solid fa-calendar-days"></i>
+Agenda de Eventos
+</a>
+</li>
+
+</ul>
+
+<a th:href="@{/logout}" class="btn btn-danger logout-btn">
+<i class="fa-solid fa-right-from-bracket"></i>
+Cerrar sesión
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- CONTENIDO -->
+
+<main>
+
+<div class="container">
+
+<div class="hero-section">
+
+<div>
+
+<h1>Bienvenido, Empleado</h1>
+
+<p>
+	Gestiona clientes, eventos y pagos de Tu Menaje Selecto de forma rápida y eficiente,
+	    manteniendo un control organizado de todas las operaciones.
+</p>
+
+</div>
+
+</div>
+
+<!-- ESTADÍSTICAS -->
+
+<div class="row mt-4 g-4">
+
+    <div class="col-md-3">
+        <div class="stats-card">
+            <i class="fa-solid fa-users"></i>
+            <h3 th:text="${totalClientes}"></h3>
+            <p>Clientes</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stats-card">
+            <i class="fa-solid fa-calendar-check"></i>
+            <h3 th:text="${totalEventos}"></h3>
+            <p>Eventos</p>
+        </div>
+    </div>
+
+	<div class="col-md-3">
+	    <div class="stats-card">
+	        <i class="fa-solid fa-circle-check"></i>
+	        <h3 th:text="${pagados}"></h3>
+			<p>Eventos Pagados</p>
+	    </div>
+	</div>
+
+	<div class="col-md-3">
+	    <div class="stats-card">
+	        <i class="fa-solid fa-clock"></i>
+	        <h3 th:text="${pendientesPago}"></h3>
+			<p>Eventos Pendientes</p>
+	    </div>
+	</div>
+
+</div>
+
+<hr>
+
+<div id="carouselDashboard" class="carousel slide mb-5" data-bs-ride="carousel">
+
+    <!-- Indicadores -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselDashboard"
+                data-bs-slide-to="0" class="active"></button>
+
+        <button type="button" data-bs-target="#carouselDashboard"
+                data-bs-slide-to="1"></button>
+
+        <button type="button" data-bs-target="#carouselDashboard"
+                data-bs-slide-to="2"></button>
+    </div>
+
+	<br>
+	
+    <!-- Imágenes -->
+    <div class="carousel-inner rounded shadow">
+
+        <div class="carousel-item active" data-bs-interval="4000">
+            <img th:src="@{/img/foto1.jpg}" class="d-block w-100" alt="Imagen 1">
+        </div>
+
+        <div class="carousel-item" data-bs-interval="4000">
+            <img th:src="@{/img/foto2.jpg}" class="d-block w-100" alt="Imagen 2">
+        </div>
+
+        <div class="carousel-item" data-bs-interval="4000">
+            <img th:src="@{/img/foto3.jpg}" class="d-block w-100" alt="Imagen 3">
+        </div>
+
+    </div>
+
+    <!-- Flechas -->
+    <button class="carousel-control-prev" type="button"
+            data-bs-target="#carouselDashboard" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button"
+            data-bs-target="#carouselDashboard" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
+
+<hr>
+
+
+<h3 class="section-title">
+Panel Operativo
+</h3>
+
+<!-- TARJETAS -->
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card card-admin">
+
+<img src="/img/clientes.jpg">
+
+<div class="card-body text-center">
+
+<h5>
+<i class="fa-solid fa-users"></i>
+Gestión de Clientes
+</h5>
+
+<p>
+Registro y administración de clientes.
+</p>
+
+<a th:href="@{/gestioncliente/lista}"
+class="btn btn-primary">
+Administrar Clientes
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card card-admin">
+
+<img src="/img/eventos.jpg">
+
+<div class="card-body text-center">
+
+<h5>
+<i class="fa-solid fa-calendar-check"></i>
+Gestión de Eventos
+</h5>
+
+<p>
+Registro y organización de eventos.
+</p>
+
+<a th:href="@{/gestionevento/lista}"
+class="btn btn-success">
+Administrar Eventos
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card card-admin">
+
+<img src="/img/pagos.jpg">
+
+<div class="card-body text-center">
+
+<h5>
+<i class="fa-solid fa-money-bill-wave"></i>
+Gestión de Pagos
+</h5>
+
+<p>
+Registro de abonos y seguimiento de saldos por evento.
+</p>
+
+<a th:href="@{/gestionpago/lista}"
+class="btn btn-warning">
+Administrar Pagos
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card card-admin">
+
+<img src="/img/agenda.jpg">
+
+<div class="card-body text-center">
+
+<h5>
+<i class="fa-solid fa-calendar-days"></i>
+Agenda de Eventos
+</h5>
+
+<p>
+Consulta rápidamente los eventos programados.
+</p>
+
+<a th:href="@{/agenda}"
+class="btn btn-info text-white">
+Ver Agenda
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<h5>Tu Menaje Selecto</h5>
+
+<p>
+Sistema web para la gestión de clientes,
+eventos y pagos.
+</p>
+
+</div>
+
+<div class="col-md-6 text-md-end">
+
+<p>
+<i class="fa-solid fa-location-dot"></i>
+Lima, Perú
+</p>
+
+<p>
+<i class="fa-solid fa-location-dot"></i>
+Ramón Castilla Mz.44 - Lt.17
+</p>
+
+<p>
+<i class="fa-solid fa-envelope"></i>
+operaciones@tumenajeselecto.com
+</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<p class="text-center mb-0">
+© 2026 Tu Menaje Selecto | Todos los derechos reservados
+</p>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Lista de Pagos | Tu Menaje Selecto</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+html,body{
+    height:100%;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:#f4f6f9;
+    font-family:'Segoe UI',sans-serif;
+    display:flex;
+    flex-direction:column;
+}
+
+main{
+    flex:1;
+}
+
+:root{
+    --primary:#1e3a8a;
+    --secondary:#2563eb;
+    --accent:#f59e0b;
+}
+
+.navbar{
+    background:white;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.navbar-brand{
+    font-weight:bold;
+}
+
+.nav-link{
+    transition:all .3s ease;
+    border-radius:10px;
+    padding:8px 15px !important;
+    font-weight:500;
+}
+
+.nav-link:hover{
+    background:var(--primary);
+    color:white !important;
+    transform:translateY(-2px);
+}
+
+.logout-btn{
+    transition:.3s;
+}
+
+.logout-btn:hover{
+    transform:scale(1.05);
+}
+
+/* CONTENIDO */
+
+.cliente-header{
+
+    background:
+    linear-gradient(
+    135deg,
+    #1e3a8a,
+    #2563eb
+    );
+
+    color:white;
+
+    padding:45px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:
+    0 10px 25px rgba(0,0,0,.15);
+}
+
+.cliente-header h1{
+    font-weight:700;
+}
+
+.cliente-header p{
+    font-size:1.1rem;
+    margin-top:10px;
+}
+
+.card{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.table tbody tr{
+    transition:.3s;
+}
+
+.table tbody tr:hover{
+    background:#eef4ff;
+}
+
+.btn{
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* FOOTER */
+
+.footer{
+    margin-top:80px;
+    background:#0f172a;
+    color:white;
+    padding:50px 0 20px;
+    border-top:5px solid var(--accent);
+}
+
+.footer h5{
+    font-weight:bold;
+}
+
+.footer p{
+    margin-bottom:8px;
+}
+
+.footer hr{
+    border-color:rgba(255,255,255,.2);
+}
+
+.dropdown-menu{
+    border:none;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.dropdown-item{
+    transition:.3s;
+}
+
+.dropdown-item:hover{
+    background:#1e3a8a;
+    color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg">
+
+<div class="container-fluid">
+
+<a class="navbar-brand">
+	Tu Menaje Selecto
+</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav mx-auto">
+
+<li class="nav-item">
+<a class="nav-link" th:href="@{/inicioEmpleado}">
+<i class="fa-solid fa-house"></i>
+Inicio
+</a>
+</li>
+
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+
+<i class="fa-solid fa-users"></i>
+Clientes
+</a>
+
+<ul class="dropdown-menu">
+
+ <li>
+ <a class="dropdown-item" th:href="@{/gestioncliente/lista}">
+ <i class="fa-solid fa-list"></i>
+ Listar Clientes
+ </a>
+</li>
+
+<li>
+<a class="dropdown-item" th:href="@{/gestioncliente/nuevo}">
+<i class="fa-solid fa-user-plus"></i>
+Registrar Cliente
+ </a>
+</li>
+
+</ul>
+</li>
+
+<li class="nav-item dropdown">
+ <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+<i class="fa-solid fa-calendar-check"></i>
+Eventos
+</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" th:href="@{/gestionevento/lista}">
+<i class="fa-solid fa-list"></i>
+Listar Eventos
+</a>
+</li>
+<li>
+	
+<a class="dropdown-item" th:href="@{/gestionevento/nuevo}">
+<i class="fa-solid fa-plus"></i>
+Registrar Evento
+</a>
+</li>
+</ul>
+</li>
+
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+<i class="fa-solid fa-money-bill-wave"></i>
+Pagos
+</a>
+<ul class="dropdown-menu">
+<li>
+<a class="dropdown-item" th:href="@{/gestionpago/lista}">
+<i class="fa-solid fa-list"></i>
+Listar Pagos
+</a>
+</li>
+<li>
+<a class="dropdown-item" th:href="@{/gestionpago/nuevo}">
+<i class="fa-solid fa-plus"></i>
+ Registrar Pago
+</a>
+</li>
+</ul>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" th:href="@{/agenda}">
+<i class="fa-solid fa-calendar-days"></i>
+Agenda de Eventos
+</a>
+</li>
+
+</ul>
+
+<a th:href="@{/logout}" class="btn btn-danger logout-btn">
+<i class="fa-solid fa-right-from-bracket"></i>
+Cerrar sesión
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- CONTENIDO -->
+
+<main>
+
+<div class="container my-5">
+
+    <div class="cliente-header mb-5">
+
+        <h1>
+
+            <i class="fa-solid fa-money-bill-wave"></i>
+            Gestión de Pagos
+
+        </h1>
+
+        <p>
+
+            Administra los pagos registrados
+            de los eventos.
+
+        </p>
+
+    </div>
+
+	
+	<div class="row mb-3">
+
+	    <div class="col-md-4">
+
+	        <input type="text"
+	               id="buscarPago"
+	               class="form-control"
+	               placeholder="Buscar evento...">
+
+	    </div>
+		
+		<div class="col-md-8 text-end">
+
+		        <a th:href="@{/gestionpago/nuevo}"
+		           class="btn btn-success">
+
+		            <i class="fa-solid fa-plus"></i>
+		            Nuevo Pago
+
+		        </a>
+
+		        <a th:href="@{/gestionpago/resumen}"
+		           class="btn btn-primary">
+
+		            <i class="fa-solid fa-chart-pie"></i>
+		            Resumen de Pagos
+
+		        </a>
+
+		 </div>
+
+	</div>
+	
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+
+                <i class="fa-solid fa-money-bill-wave"></i>
+                Lista de Pagos
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                    <tr>
+
+						<th>ID</th>
+						<th>Evento</th>
+						<th>Cliente</th>
+						<th>Fecha Pago</th>
+						<th>Monto</th>
+						<th>Método</th>
+						<th>Presupuesto</th>
+						<th>Saldo Pendiente</th>
+						<th>Estado</th>
+						<th class="text-center">Acciones</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="tablaPagos">
+
+                    <tr th:each="pago : ${pagos}">
+
+                        <td th:text="${pago.idPago}">
+                        </td>
+
+                        <td th:text="${pago.evento.nombreEvento}">
+                        </td>
+
+                        <td th:text="${pago.evento.cliente.nombre + ' ' + pago.evento.cliente.apellido}">
+                        </td>
+
+                        <td th:text="${pago.fechaPago}">
+                        </td>
+
+                        <td>
+
+                            S/.
+
+                            <span th:text="${#numbers.formatDecimal(
+                                    pago.monto,
+                                    1,
+                                    2)}">
+                            </span>
+
+                        </td>
+
+                        <td th:text="${pago.metodoPago}">
+							
+                        </td>
+						
+						<td>
+
+						    S/.
+
+						    <span th:text="${#numbers.formatDecimal(
+						        pago.evento.presupuesto,
+						        1,
+						        2)}">
+						    </span>
+
+						</td>
+
+						<td>
+
+						    S/.
+
+						    <span th:text="${#numbers.formatDecimal(
+						        pago.evento.presupuesto -
+						        pagoService.obtenerTotalPagadoPorEvento(
+						            pago.evento.idEvento),
+						        1,
+						        2)}">
+						    </span>
+
+						</td>
+
+						<td>
+
+						    <span class="badge bg-success"
+						          th:if="${pagoService.obtenerTotalPagadoPorEvento(
+						                 pago.evento.idEvento)
+						                 >=
+						                 pago.evento.presupuesto}">
+
+						        Pagado
+
+						    </span>
+
+						    <span class="badge bg-warning text-dark"
+						          th:if="${pagoService.obtenerTotalPagadoPorEvento(
+						                 pago.evento.idEvento)
+						                 <
+						                 pago.evento.presupuesto}">
+
+						        Pendiente
+
+						    </span>
+
+						</td>
+
+                        <td class="text-center">
+
+                            <a th:href="@{/gestionpago/editar/{id}(id=${pago.idPago})}"
+                               class="btn btn-primary btn-sm">
+
+                                <i class="fa-solid fa-pen"></i>
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<h5>Tu Menaje Selecto</h5>
+
+<p>
+Sistema web para la gestión de clientes,
+eventos y pagos.
+</p>
+
+</div>
+
+<div class="col-md-6 text-md-end">
+
+<p>
+<i class="fa-solid fa-location-dot"></i>
+Lima, Perú
+</p>
+
+<p>
+<i class="fa-solid fa-location-dot"></i>
+Ramón Castilla Mz.44 - Lt.17
+</p>
+
+<p>
+<i class="fa-solid fa-envelope"></i>
+operaciones@tumenajeselecto.com
+</p>
+
+</div>
+
+</div>
+
+<hr>
+
+<p class="text-center mb-0">
+© 2026 Tu Menaje Selecto | Todos los derechos reservados
+</p>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+document.getElementById("buscarPago")
+.addEventListener("keyup", function(){
+
+    let texto =
+        this.value.toLowerCase();
+
+    let filas =
+        document.querySelectorAll(
+            "#tablaPagos tr"
+        );
+
+    filas.forEach(function(fila){
+
+        let evento =
+            fila.children[1]
+            .innerText
+            .toLowerCase();
+
+        fila.style.display =
+            evento.includes(texto)
+            ? ""
+            : "none";
+    });
+});
+
+</script>
+
+</body>
+</html>
