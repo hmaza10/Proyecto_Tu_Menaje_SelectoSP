@@ -42,6 +42,12 @@ public class LoginController {
 	private ContratoRepository contratoRepository;
 	
 	
+    @GetMapping("/")
+	public String inicio() {
+	    return "redirect:/login";
+	}
+	
+	
     @GetMapping("/login")
     public String login() {
         return "login/login";
